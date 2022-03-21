@@ -11,6 +11,7 @@ namespace Pract17.Tests
     public class OptionalParametersTest
     {
         [Test]
+        [Order(4)]
         [TestCase("", "TechArt@stlab.by", "male", "active")]
         [TestCase("Tech Art", "", "male", "active")]
         [TestCase("Tech Art", "TechArt@stlab.by", "", "active")]

@@ -10,17 +10,18 @@ namespace Pract17.Tests
     public class DeserializationTests
     {
         [Test]
-        [TestCase(4185)]
-        [TestCase(4184)]
-        public async Task DeserializationTest(int userId)
+        [Order(3)]
+        [TestCase("StLab StLab")]
+        public async Task DeserializationTest(string userName)
         {
             RestClient client = new RestClient("https://gorest.co.in");
-            RestRequest request = new RestRequest($"public/v2/users/{userId}", Method.Get);
+            RestRequest request = new RestRequest($"public/v2/users?name={userName}", Method.Get);
+            request.AddHeader("Authorization", "Bearer 2e03951568c9304f5892565524e91ba81d30ce2416447628708f6a67432c6cc7");
 
             RestResponse response = await client.ExecuteAsync(request);
-            UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(response.Content);
+            UserResponse[] userResponse = JsonConvert.DeserializeObject<UserResponse[]>(response.Content);
 
-            Assert.That(userResponse.Id, Is.EqualTo(userId));
+            Assert.That(userResponse[0].Name, Is.EqualTo(userName));
         }
     }
 }
